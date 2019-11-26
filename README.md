@@ -1,6 +1,8 @@
 # OutputAttributes
 
-This gem provides a class macro that adds `output` helpers when defining your class. I find it jarring to keep `#to_hash` up to date on classes that have many data attributes, and a few helper methods. I often wish to just mark a method as "This method describes my data and should be part of `#to_hash`".
+This gem helps you serialize your data object by providing an `output` class macro for defining your class. You can call `#output_attributes` to get a hash representing your object from the output helpers.
+
+I find it jarring to keep `#to_hash` up to date on classes that have many data attributes, and a few helper methods. I often wish to just mark a method as "This method describes my data and should be part of `#to_hash`".
 
 ## Installation
 
