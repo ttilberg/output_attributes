@@ -2,9 +2,29 @@
 
 This gem provides a class macro that adds `output` helpers when defining your class. I find it jarring to keep `#to_hash` up to date on classes that have many data attributes, and a few helper methods. I often wish to just mark a method as "This method describes my data and should be part of `#to_hash`".
 
+## Installation
+
+Add this line to your application's Gemfile:
+
+```ruby
+gem 'output_attributes'
+```
+
+And then execute:
+
+    $ bundle
+
+Or install it yourself as:
+
+    $ gem install output_attributes
+
+## Usage
+
 Behold:
 
 ```ruby
+require 'output_attributes'
+
 class Item
   include OutputAttributes
 
@@ -157,9 +177,16 @@ class Page < SimpleDelegator
     labels(:size)
   end
 
-  output :extracted_at, from: ->(_){ Time.now }
+  output def description
+    "#{name} #{size} #{color}"
+  end
 
-  alias to_hash output_attributes
+  def to_hash
+    output_attributes.merge(
+      extracted_at: Time.now,
+      object: self.class
+    )
+  end
 
   private
   def labels(key)
@@ -171,7 +198,9 @@ end
 Page.new(nokogirilike).to_hash
 ```
 
-Usually when I'm writing a method for a page object, I'm thinking "Is this part of my data output, or is this just a helper method?". I've often forgotten to update `#to_hash` when it lives further away from the method itself. I've also tried other styles that involved packaging my data methods into a module, and then doing something like `Attributes.public_instance_methods.reduce({})...` but I wanted to give this style a spin.
+Usually when I'm writing a method for a page object, I'm already thinking "Is this part of my data output, or is this just a helper method?". I've often forgotten to update `#to_hash` when it lives far away from the method itself.
+
+I've also tried other styles that involved packaging my data methods into a module, and then doing something like `Attributes.public_instance_methods.reduce({})...` but I wanted to give this style a spin. For now, I like it well enough.
 
 
 # Fun Fact
@@ -184,24 +213,7 @@ memoize def my_method
 end
 ```
 
-I think this is pretty cool, and is exactly the type of syntax I wanted when creating data objects.
-
-
-## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'output_attributes'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install output_attributes
+I think this is pretty cool. It's exactly the type of syntax I usually wished I had when creating data objects.
 
 ## Development
 
