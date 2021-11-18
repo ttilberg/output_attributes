@@ -7,6 +7,7 @@ Gem::Specification.new do |spec|
   spec.version       = OutputAttributes::VERSION
   spec.authors       = ["Tim Tilberg"]
   spec.email         = ["ttilberg@gmail.com"]
+  spec.licenses      = ['MIT']
 
   spec.summary       = %q{Easily declare a hash to represent your object using `output` attributes}
   spec.description   = <<~DESC
